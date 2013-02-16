@@ -4,6 +4,7 @@ import (
 	"reflect"
 	"regexp"
 	"runtime"
+	"strings"
 	"testing"
 )
 
@@ -35,6 +36,22 @@ func NotEqual(exp, actual interface{}) {
 
 func equal(exp, actual interface{}) bool {
 	return reflect.DeepEqual(exp, actual)
+}
+
+func Contain(expect, content string) {
+	if !contain(expect, content) {
+		error("Assert contain text, but failed", "contain: "+expect, content)
+	}
+}
+
+func NotContain(expect, content string) {
+	if contain(expect, content) {
+		error("Assert doesn't contain text, but failed", "contain: "+expect, content)
+	}
+}
+
+func contain(expect, content string) bool {
+	return strings.Contains(content, expect)
 }
 
 func Match(expReg, content string) {
