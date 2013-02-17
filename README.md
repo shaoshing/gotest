@@ -1,9 +1,9 @@
+# GoTest
 
-## Examples
+
+### Examples
 
 ```go
-package assert
-
 import (
   "github.com/shaoshing/gotest"
   "testing"
@@ -23,9 +23,17 @@ func TestAssertions(t *testing.T) {
   assert.NotEqual(123, 456)
   assert.NotEqual("123", "456")
 
+  Contain("123", "123456")
+  NotContain("789", "123456")
+
   assert.Match("123", "123456")
   assert.Match("56$", "123456")
   assert.NotMatch("789", "123456")
   assert.NotMatch("123$", "123456")
 }
 ```
+
+
+### License
+
+GoTest is released under the {MIT License}[http://www.opensource.org/licenses/MIT].
