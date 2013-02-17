@@ -1,6 +1,7 @@
 package assert
 
 import (
+	"os"
 	"reflect"
 	"regexp"
 	"runtime"
@@ -77,6 +78,8 @@ func error(message string, exp, actual interface{}) {
 	}
 
 	_, file, line, _ := runtime.Caller(2)
+	wd, _ := os.Getwd()
+	file = strings.Replace(file, wd+"/", "", 1)
 	Test.Errorf("%s\n%s:%d\n== expect ==\n%s\n== actual ==\n%s\n============\n", message, file, line, exp, actual)
 	Test.FailNow()
 }
