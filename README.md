@@ -1,7 +1,9 @@
-# GoTest
+# GoTest 
+
+[![Build Status](https://travis-ci.org/shaoshing/gotest.png?branch=master)](https://travis-ci.org/shaoshing/gotest)
 
 
-### Examples
+## Examples
 
 ```go
 import (
@@ -33,7 +35,6 @@ func TestAssertions(t *testing.T) {
 }
 ```
 
+## License
 
-### License
-
-GoTest is released under the {MIT License}[http://www.opensource.org/licenses/MIT].
+GoTest is released under the [MIT License](http://www.opensource.org/licenses/MIT).
