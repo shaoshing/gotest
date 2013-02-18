@@ -1,4 +1,4 @@
-# GoTest 
+# GoTest
 
 [![Build Status](https://travis-ci.org/shaoshing/gotest.png?branch=master)](https://travis-ci.org/shaoshing/gotest)
 
@@ -12,7 +12,7 @@ import (
 )
 
 func TestAssertions(t *testing.T) {
-  Test = t
+  assert.Test = t
 
   assert.True(true)
   assert.NotTrue(false)
