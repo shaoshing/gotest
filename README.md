@@ -12,26 +12,39 @@ import (
 )
 
 func TestAssertions(t *testing.T) {
-  assert.Test = t
+  Test = t
 
-  assert.True(true)
-  assert.NotTrue(false)
+  True(true)
+  TrueM(true, "Should be")
 
-  assert.Equal(true, true)
-  assert.Equal(123, 123)
-  assert.Equal("123", "123")
+  NotTrue(false)
+  NotTrueM(false, "false")
 
-  assert.NotEqual(true, false)
-  assert.NotEqual(123, 456)
-  assert.NotEqual("123", "456")
+  Equal(true, true)
+  Equal(123, 123)
+  Equal("123", "123")
+  EqualM("123", "123", "123 should equals to 123, %s", "works like fmt.Sprintf")
+
+  NotEqual(true, false)
+  NotEqual(123, 456)
+  NotEqual("123", "456")
+  NotEqualM("123", "456", "123 should not equal to 456")
 
   Contain("123", "123456")
-  NotContain("789", "123456")
+  Contain("56", "123456")
+  ContainM("56", "123456", "123456 should contain 56")
 
-  assert.Match("123", "123456")
-  assert.Match("56$", "123456")
-  assert.NotMatch("789", "123456")
-  assert.NotMatch("123$", "123456")
+  NotContain("789", "123456")
+  NotContain("123$", "123456")
+  NotContainM("123$", "123456", "123456 should not contain 123$")
+
+  Match("123", "123456")
+  Match("56$", "123456")
+  MatchM("56$", "123456", "Reg match")
+
+  NotMatch("789", "123456")
+  NotMatch("123$", "123456")
+  NotMatchM("123$", "123456", "Reg match")
 }
 ```
 

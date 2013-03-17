@@ -1,6 +1,7 @@
 package assert
 
 import (
+	"fmt"
 	"os"
 	"reflect"
 	"regexp"
@@ -12,26 +13,42 @@ import (
 var Test *testing.T
 
 func True(actual bool) {
+	TrueM(actual, "")
+}
+
+func TrueM(actual bool, msg string, args ...interface{}) {
 	if !actual {
-		error("Assert true, but failed", !actual, actual)
+		error("Assert true, but failed", !actual, actual, msg, args...)
 	}
 }
 
 func NotTrue(actual bool) {
+	NotTrueM(actual, "")
+}
+
+func NotTrueM(actual bool, msg string, args ...interface{}) {
 	if actual {
-		error("Assert not true, but failed", !actual, actual)
+		error("Assert not true, but failed", !actual, actual, msg, args...)
 	}
 }
 
 func Equal(exp, actual interface{}) {
+	EqualM(exp, actual, "")
+}
+
+func EqualM(exp, actual interface{}, msg string, args ...interface{}) {
 	if !equal(exp, actual) {
-		error("Assert equal, but failed", exp, actual)
+		error("Assert equal, but failed", exp, actual, msg, args...)
 	}
 }
 
 func NotEqual(exp, actual interface{}) {
+	NotEqualM(exp, actual, "")
+}
+
+func NotEqualM(exp, actual interface{}, msg string, args ...interface{}) {
 	if equal(exp, actual) {
-		error("Assert doesn't equal, but failed", exp, actual)
+		error("Assert doesn't equal, but failed", exp, actual, msg, args...)
 	}
 }
 
@@ -40,14 +57,22 @@ func equal(exp, actual interface{}) bool {
 }
 
 func Contain(expect, content string) {
+	ContainM(expect, content, "")
+}
+
+func ContainM(expect, content string, msg string, args ...interface{}) {
 	if !contain(expect, content) {
-		error("Assert contain text, but failed", "contain: "+expect, content)
+		error("Assert contain text, but failed", "contain: "+expect, content, msg, args...)
 	}
 }
 
 func NotContain(expect, content string) {
+	NotContainM(expect, content, "")
+}
+
+func NotContainM(expect, content string, msg string, args ...interface{}) {
 	if contain(expect, content) {
-		error("Assert doesn't contain text, but failed", "contain: "+expect, content)
+		error("Assert doesn't contain text, but failed", "contain: "+expect, content, msg, args...)
 	}
 }
 
@@ -56,14 +81,22 @@ func contain(expect, content string) bool {
 }
 
 func Match(expReg, content string) {
+	MatchM(expReg, content, "")
+}
+
+func MatchM(expReg, content string, msg string, args ...interface{}) {
 	if !match(expReg, content) {
-		error("Assert match content, but failed", "match: /"+expReg+"/", content)
+		error("Assert match content, but failed", "match: /"+expReg+"/", content, msg, args...)
 	}
 }
 
 func NotMatch(expReg, content string) {
+	NotMatchM(expReg, content, "")
+}
+
+func NotMatchM(expReg, content string, msg string, args ...interface{}) {
 	if match(expReg, content) {
-		error("Assert doesn't match content, but failed", "match: /"+expReg+"/", content)
+		error("Assert doesn't match content, but failed", "match: /"+expReg+"/", content, msg, args...)
 	}
 }
 
@@ -72,9 +105,13 @@ func match(expReg, content string) bool {
 	return exp.Match([]byte(content))
 }
 
-func error(message string, exp, actual interface{}) {
+func error(message string, exp, actual interface{}, customMsg string, args ...interface{}) {
 	if Test == nil {
 		panic("Must assign assert.Test")
+	}
+
+	if len(customMsg) != 0 {
+		message = fmt.Sprintf(customMsg, args...)
 	}
 
 	wd, _ := os.Getwd()
