@@ -4,7 +4,7 @@ import (
 	"os"
 	"reflect"
 	"regexp"
-	"runtime"
+	"runtime/debug"
 	"strings"
 	"testing"
 )
@@ -77,9 +77,16 @@ func error(message string, exp, actual interface{}) {
 		panic("Must assign assert.Test")
 	}
 
-	_, file, line, _ := runtime.Caller(2)
 	wd, _ := os.Getwd()
-	file = strings.Replace(file, wd+"/", "", 1)
-	Test.Errorf("%s\n%s:%d\n== expect ==\n%s\n== actual ==\n%s\n============\n", message, file, line, exp, actual)
+	stack := strings.Replace(strings.Join(strings.Split(string(debug.Stack()), "\n")[4:], "\n"), wd+"/", "./", -1)
+
+	Test.Errorf(`%s
+== expect
+%s
+== actual
+%s
+== stack
+%s
+`, message, exp, actual, stack)
 	Test.FailNow()
 }
