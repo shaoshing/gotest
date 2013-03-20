@@ -12,6 +12,41 @@ import (
 
 var Test *testing.T
 
+func Nil(actual interface{}) {
+	NilM(actual, "")
+}
+
+func NilM(actual interface{}, msg string, args ...interface{}) {
+	if !isNil(actual) {
+		error("Assert nil, but failed", nil, actual, msg, args...)
+	}
+}
+
+func NotNil(actual interface{}) {
+	NotNilM(actual, "")
+}
+
+func NotNilM(actual interface{}, msg string, args ...interface{}) {
+	if isNil(actual) {
+		error("Assert not nil, but failed", "not nil", nil, msg, args...)
+	}
+}
+
+func isNil(value interface{}) bool {
+	val := reflect.ValueOf(value)
+
+	if !val.IsValid() {
+		return true
+	}
+
+	switch val.Kind() {
+	case reflect.Chan, reflect.Func, reflect.Map, reflect.Ptr, reflect.Slice, reflect.UnsafePointer:
+		return val.Pointer() == 0
+	}
+
+	return false
+}
+
 func True(actual bool) {
 	TrueM(actual, "")
 }
@@ -53,6 +88,11 @@ func NotEqualM(exp, actual interface{}, msg string, args ...interface{}) {
 }
 
 func equal(exp, actual interface{}) bool {
+	expVal := reflect.ValueOf(exp)
+	if !expVal.IsValid() {
+		panic("Please use assert.Nil instead.")
+	}
+
 	return reflect.DeepEqual(exp, actual)
 }
 
@@ -107,6 +147,7 @@ func match(expReg, content string) bool {
 
 func error(message string, exp, actual interface{}, customMsg string, args ...interface{}) {
 	if Test == nil {
+		println("panic")
 		panic("Must assign assert.Test")
 	}
 
@@ -124,6 +165,6 @@ func error(message string, exp, actual interface{}, customMsg string, args ...in
 %s
 == stack
 %s
-`, message, exp, actual, stack)
+`, message, fmt.Sprint(exp), fmt.Sprint(actual), stack)
 	Test.FailNow()
 }

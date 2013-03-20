@@ -1,43 +1,48 @@
-package assert
+package assert_test
 
 import (
+	"github.com/shaoshing/gotest"
 	"testing"
 )
 
 func TestAssertions(t *testing.T) {
-	Test = t
+	assert.Test = t
 
-	True(true)
-	TrueM(true, "Should be")
+	assert.Nil(nil)
+	assert.NilM(nil, "Each assertion method has an alternative method eneded with M to support custom error message.")
+	assert.NilM(nil, "Custome Error Message works like printf: %s", "actual value")
 
-	NotTrue(false)
-	NotTrueM(false, "false")
+	var nilSlice []int
+	var nilPointer *[]int
+	assert.NilM(nilSlice, "Nil Slice == nil")
+	assert.NilM(nilPointer, "Nil Pointer == nil")
 
-	Equal(true, true)
-	Equal(123, 123)
-	Equal("123", "123")
-	EqualM("123", "123", "123 should equals to 123, %s", "works like fmt.Sprintf")
+	assert.NotNil(1)
+	assert.NotNil("1")
+	assert.NotNil(true)
 
-	NotEqual(true, false)
-	NotEqual(123, 456)
-	NotEqual("123", "456")
-	NotEqualM("123", "456", "123 should not equal to 456")
+	assert.True(true)
+	assert.NotTrue(false)
 
-	Contain("123", "123456")
-	Contain("56", "123456")
-	ContainM("56", "123456", "123456 should contain 56")
+	assert.Equal(true, true)
+	assert.Equal(123, 123)
+	assert.Equal("123", "123")
 
-	NotContain("789", "123456")
-	NotContain("123$", "123456")
-	NotContainM("123$", "123456", "123456 should not contain 123$")
+	assert.NotEqual(true, false)
+	assert.NotEqual(123, 456)
+	assert.NotEqual("123", "456")
 
-	Match("123", "123456")
-	Match("56$", "123456")
-	MatchM("56$", "123456", "Reg match")
+	assert.Contain("123", "123456")
+	assert.Contain("56", "123456")
 
-	NotMatch("789", "123456")
-	NotMatch("123$", "123456")
-	NotMatchM("123$", "123456", "Reg match")
+	assert.NotContain("789", "123456")
+	assert.NotContain("123$", "123456")
+
+	assert.Match("123", "123456")
+	assert.Match("56$", "123456")
+
+	assert.NotMatch("789", "123456")
+	assert.NotMatch("123$", "123456")
 }
 
 // func TestTrue(t *testing.T) {
@@ -58,4 +63,9 @@ func TestAssertions(t *testing.T) {
 // func TestFailMatch(t *testing.T) {
 // 	Test = t
 // 	MatchM("123", "456", "Custom message %s", "with params")
+// }
+
+// func TestNilAssetion(t *testing.T) {
+// 	Test = t
+// 	Equal(nil, nil)
 // }

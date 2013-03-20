@@ -14,37 +14,24 @@ import (
 func TestAssertions(t *testing.T) {
   Test = t
 
-  True(true)
-  TrueM(true, "Should be")
+  assert.True(true)
+  assert.NilM(nil, "Each assertion method has an alternative method eneded with M to support custom error message.")
+  assert.NilM(nil, "Custome Error Message works like printf: %s", "actual value")
 
-  NotTrue(false)
-  NotTrueM(false, "false")
-
-  Equal(true, true)
-  Equal(123, 123)
-  Equal("123", "123")
-  EqualM("123", "123", "123 should equals to 123, %s", "works like fmt.Sprintf")
-
-  NotEqual(true, false)
-  NotEqual(123, 456)
-  NotEqual("123", "456")
-  NotEqualM("123", "456", "123 should not equal to 456")
-
-  Contain("123", "123456")
-  Contain("56", "123456")
-  ContainM("56", "123456", "123456 should contain 56")
-
-  NotContain("789", "123456")
-  NotContain("123$", "123456")
-  NotContainM("123$", "123456", "123456 should not contain 123$")
-
-  Match("123", "123456")
-  Match("56$", "123456")
-  MatchM("56$", "123456", "Reg match")
-
-  NotMatch("789", "123456")
-  NotMatch("123$", "123456")
-  NotMatchM("123$", "123456", "Reg match")
+  // List of Assertions:
+  //
+  // assert.Nil
+  // assert.NotNil
+  // assert.True
+  // assert.NotTrue
+  // assert.Equal
+  // assert.NotEqual
+  // assert.Contain
+  // assert.NotContain
+  // assert.Match
+  // assert.NotMatch
+  //
+  // Checkout assert_test.go for more examples
 }
 ```
 
