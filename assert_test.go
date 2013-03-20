@@ -43,6 +43,14 @@ func TestAssertions(t *testing.T) {
 
 	assert.NotMatch("789", "123456")
 	assert.NotMatch("123$", "123456")
+
+	assert.Panic(func() {
+		panic("Test")
+	})
+
+	assert.NoPanic(func() {
+		// No panic
+	})
 }
 
 // func TestTrue(t *testing.T) {

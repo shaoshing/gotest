@@ -30,6 +30,8 @@ func TestAssertions(t *testing.T) {
   // assert.NotContain
   // assert.Match
   // assert.NotMatch
+  // assert.Panic
+  // assert.NoPanic
   //
   // Checkout assert_test.go for more examples
 }

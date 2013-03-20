@@ -145,6 +145,34 @@ func match(expReg, content string) bool {
 	return exp.Match([]byte(content))
 }
 
+func Panic(f func()) {
+	PanicM(f, "")
+}
+
+func PanicM(f func(), msg string, args ...interface{}) {
+	if noPanic(f) {
+		error("Assert panic, but didn't", "panic", "no panic", msg, args...)
+	}
+}
+
+func NoPanic(f func()) {
+	NoPanicM(f, "")
+}
+
+func NoPanicM(f func(), msg string, args ...interface{}) {
+	if !noPanic(f) {
+		error("Assert no panic, but panicked", "no panic", "panicked", msg, args...)
+	}
+}
+
+func noPanic(f func()) bool {
+	defer func() {
+		recover()
+	}()
+	f()
+	return true
+}
+
 func error(message string, exp, actual interface{}, customMsg string, args ...interface{}) {
 	if Test == nil {
 		println("panic")
