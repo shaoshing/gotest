@@ -12,10 +12,16 @@ import (
 
 var Test *testing.T
 
+// assert.Nil(nil) //=> true
+// var nilSlice []int
+// assert.Nil(nilSlice) //=> true. nil referrence is also nil.
 func Nil(actual interface{}) {
 	NilM(actual, "")
 }
 
+// assert.NilM(nil, "nil is nil") //=> true
+// var nilSlice []int
+// assert.NilM(nilSlice, "nil referrence is also nil.") //=> true
 func NilM(actual interface{}, msg string, args ...interface{}) {
 	if !isNil(actual) {
 		error("Assert nil, but failed", nil, actual, msg, args...)
@@ -67,6 +73,15 @@ func NotTrueM(actual bool, msg string, args ...interface{}) {
 	}
 }
 
+// assert.Equal(1, 2-1) 						 //=> true
+// assert.Equal(true, len("text")>0) //=> true
+//
+// Exception:
+
+// var nilSlice []int
+// assert.Equal(nil, nilSlice) //=> false, because their types are different. Gotest also won't allow
+//																	using this kind of assertion. To test nil, simply use assert.Nil
+// assert.Nil(nilSlice) 			  //=> true
 func Equal(exp, actual interface{}) {
 	EqualM(exp, actual, "")
 }
